@@ -1,0 +1,245 @@
+// converted by version 1.3
+// on Tue Dec 02 21:15:16 CET 2014
+
+.package monpackage {
+	.aid 0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0;
+	.version 1.0;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.3;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+	}
+
+	.applet {
+		0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0:0x0 MonApplet;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef short MonApplet/balance;
+		// 1
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 2
+		classRef MonApplet;
+		// 3
+		staticMethodRef MonApplet/<init>([BSB)V;
+		// 4
+		virtualMethodRef 0.10.1()[B;		// getBuffer()[B
+		// 5
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 6
+		staticMethodRef 0.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
+		// 7
+		staticMethodRef MonApplet/getBalance(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 8
+		staticMethodRef MonApplet/debit(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 9
+		staticMethodRef MonApplet/credit(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 10
+		staticMethodRef 0.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 11
+		virtualMethodRef 0.10.8(SS)V;		// setOutgoingAndSend(SS)V
+	}
+
+	.class public MonApplet 0 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			 short balance 0;		// S
+			static final byte MonApplet_CLA = -80;		// B
+			static final byte CREDIT = 48;		// B
+			static final byte DEBIT = 64;		// B
+			static final byte GET_BALANCE = 80;		// B
+			static final short MAX_BALANCE = 32767;		// S
+			static final byte MAX_TRANSACTION_AMOUNT = 100;		// B
+			static final short SW_INVALID_TRANSACTION_AMOUNT = 27267;		// S
+			static final short SW_EXCEED_MAXIMUM_BALANCE = 27268;		// S
+			static final short SW_NEGATIVE_BALANCE = 27269;		// S
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>([BSB)V {
+			.stack 1;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 10;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					invokevirtual 1;		// register()V
+					return;
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 4;
+			.locals 0;
+
+				L0:	new 2;		// monpackage/MonApplet
+					aload_0;
+					sload_1;
+					sload_2;
+					invokespecial 3;		// monpackage/MonApplet.<init>([BSB)V
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 2;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 4;		// getBuffer()[B
+					astore_2;
+					aload_0;
+					invokevirtual 5;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_2;
+					sconst_0;
+					baload;
+					bspush -80;
+					if_scmpeq L4;
+				L3:	sspush 28160;
+					invokestatic 6;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	aload_2;
+					sconst_1;
+					baload;
+					slookupswitch L8 3 48 L7 64 L6 80 L5;
+				L5:	aload_0;
+					aload_1;
+					invokespecial 7;		// monpackage/MonApplet.getBalance(Ljavacard/framework/APDU;)V
+					return;
+				L6:	aload_0;
+					aload_1;
+					invokespecial 8;		// monpackage/MonApplet.debit(Ljavacard/framework/APDU;)V
+					return;
+				L7:	aload_0;
+					aload_1;
+					invokespecial 9;		// monpackage/MonApplet.credit(Ljavacard/framework/APDU;)V
+					return;
+				L8:	sspush 27904;
+					invokestatic 6;		// javacard/framework/ISOException.throwIt(S)V
+					return;
+		}
+
+		.method private credit(Ljavacard/framework/APDU;)V {
+			.stack 3;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 4;		// getBuffer()[B
+					astore_2;
+					aload_2;
+					sconst_5;
+					baload;
+					sstore_3;
+					sload_3;
+					bspush 100;
+					if_scmpgt L2;
+				L1:	sload_3;
+					ifge L3;
+				L2:	sspush 27267;
+					invokestatic 6;		// javacard/framework/ISOException.throwIt(S)V
+				L3:	getfield_s_this 0;		// short monpackage/MonApplet.balance
+					sload_3;
+					sadd;
+					ifge L5;
+				L4:	sspush 27268;
+					invokestatic 6;		// javacard/framework/ISOException.throwIt(S)V
+				L5:	aload_0;
+					dup;
+					getfield_s 0;		// short monpackage/MonApplet.balance
+					sload_3;
+					sadd;
+					putfield_s 0;		// short monpackage/MonApplet.balance
+					return;
+		}
+
+		.method private debit(Ljavacard/framework/APDU;)V {
+			.stack 3;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 4;		// getBuffer()[B
+					astore_2;
+					aload_2;
+					sconst_5;
+					baload;
+					sstore_3;
+					sload_3;
+					bspush 100;
+					if_scmpgt L2;
+				L1:	sload_3;
+					ifge L3;
+				L2:	sspush 27267;
+					invokestatic 6;		// javacard/framework/ISOException.throwIt(S)V
+				L3:	getfield_s_this 0;		// short monpackage/MonApplet.balance
+					sload_3;
+					ssub;
+					ifge L5;
+				L4:	sspush 27268;
+					invokestatic 6;		// javacard/framework/ISOException.throwIt(S)V
+				L5:	aload_0;
+					dup;
+					getfield_s 0;		// short monpackage/MonApplet.balance
+					sload_3;
+					ssub;
+					putfield_s 0;		// short monpackage/MonApplet.balance
+					return;
+		}
+
+		.method private getBalance(Ljavacard/framework/APDU;)V {
+			.stack 4;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 4;		// getBuffer()[B
+					astore_2;
+					aload_2;
+					sconst_0;
+					getfield_s_this 0;		// short monpackage/MonApplet.balance
+					s2b;
+					bastore;
+					aload_2;
+					sconst_1;
+					getfield_s_this 0;		// short monpackage/MonApplet.balance
+					bspush 8;
+					sshr;
+					sspush 255;
+					sand;
+					s2b;
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_2;
+					invokevirtual 11;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+	}
+
+}
